@@ -1,0 +1,67 @@
+Sort List
+Solved
+Medium
+Topics
+premium lock icon
+Companies
+Given the head of a linked list, return the list after sorting it in ascending order.
+
+ 
+
+Example 1:
+
+
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+Example 2:
+
+
+Input: head = [-1,5,3,4,0]
+Output: [-1,0,3,4,5]
+Example 3:
+
+Input: head = []
+Output: []
+ 
+
+Code : 
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    private:
+    ListNode*merge(ListNode*left,ListNode*right){
+        if(!left) return right;
+        if(!right) return left;
+        if(left->val < right->val) {
+            left->next=merge(left->next,right);
+            return left;
+        }else{
+            right->next=merge(left,right->next);
+            return right;
+        }
+    }
+public:
+    ListNode* sortList(ListNode* head) {
+        if(!head || !head->next) return head;
+        ListNode*slow=head,*fast=head,*prev=nullptr;
+        while(fast && fast->next) {
+            prev=slow;
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        prev->next=nullptr;
+        ListNode*left=sortList(head);
+        ListNode*right=sortList(slow);
+        return merge(left,right);
+     }
+};
