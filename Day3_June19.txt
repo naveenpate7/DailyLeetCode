@@ -1,0 +1,142 @@
+Partition Array Such That Maximum Difference Is K
+Solved
+Medium
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums and an integer k. You may partition nums into one or more subsequences such that each element in nums appears in exactly one of the subsequences.
+
+Return the minimum number of subsequences needed such that the difference between the maximum and minimum values in each subsequence is at most k.
+
+A subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.
+
+ 
+
+Example 1:
+
+Input: nums = [3,6,1,2,5], k = 2
+Output: 2
+Explanation:
+We can partition nums into the two subsequences [3,1,2] and [6,5].
+The difference between the maximum and minimum value in the first subsequence is 3 - 1 = 2.
+The difference between the maximum and minimum value in the second subsequence is 6 - 5 = 1.
+Since two subsequences were created, we return 2. It can be shown that 2 is the minimum number of subsequences needed.
+Example 2:
+
+Input: nums = [1,2,3], k = 1
+Output: 2
+Explanation:
+We can partition nums into the two subsequences [1,2] and [3].
+The difference between the maximum and minimum value in the first subsequence is 2 - 1 = 1.
+The difference between the maximum and minimum value in the second subsequence is 3 - 3 = 0.
+Since two subsequences were created, we return 2. Note that another optimal solution is to partition nums into the two subsequences [1] and [2,3].
+Example 3:
+
+Input: nums = [2,2,4,5], k = 0
+Output: 3
+Explanation:
+We can partition nums into the three subsequences [2,2], [4], and [5].
+The difference between the maximum and minimum value in the first subsequences is 2 - 2 = 0.
+The difference between the maximum and minimum value in the second subsequences is 4 - 4 = 0.
+The difference between the maximum and minimum value in the third subsequences is 5 - 5 = 0.
+Since three subsequences were created, we return 3. It can be shown that 3 is the minimum number of subsequences needed.
+
+
+
+
+
+code :: 
+
+
+
+
+class Solution {
+public:
+    int partitionArray(vector<int>& nums, int k) 
+    {
+        sort(begin(nums), end(nums));
+
+        int cur = 0, ans = 1, n = nums.size();
+        for(int i = 0; i < n; i++)
+            if(k < nums[i] - nums[cur]) 
+                cur = i, ans += 1;
+
+        return ans;
+    }
+};
+
+
+
+
+
+
+second question is :
+
+
+ Count Servers that Communicate
+Solved
+Medium
+Topics
+premium lock icon
+Companies
+Hint
+You are given a map of a server center, represented as a m * n integer matrix grid, where 1 means that on that cell there is a server and 0 means that it is no server. Two servers are said to communicate if they are on the same row or on the same column.
+
+Return the number of servers that communicate with any other server.
+
+ 
+
+Example 1:
+
+
+
+Input: grid = [[1,0],[0,1]]
+Output: 0
+Explanation: No servers can communicate with others.
+Example 2:
+
+
+
+Input: grid = [[1,0],[1,1]]
+Output: 3
+Explanation: All three servers can communicate with at least one other server.
+Example 3:
+
+
+
+Input: grid = [[1,1,0,0],[0,0,1,0],[0,0,1,0],[0,0,0,1]]
+Output: 4
+Explanation: The two servers in the first row can communicate with each other. The two servers in the third column can communicate with each other. The server at right bottom corner can't communicate with any other server.
+
+
+
+
+code is ::
+
+class Solution {
+public:
+    int countServers(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        vector<int> rc(r, 0);
+        vector<int> cc(c, 0);
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j]) {
+                    rc[i]++;
+                    cc[j]++;
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j] && (rc[i] > 1 || cc[j] > 1)) {
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+};
